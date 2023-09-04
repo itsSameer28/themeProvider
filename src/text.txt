@@ -1,0 +1,51 @@
+import React, { useState } from "react";
+import data from "../Data/data.json";
+import CardProduct from "./CardProduct";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+
+export default function Ecommerce() {
+  const [filterDataByCategory, setFilterDataByCategory] = useState("All");
+
+  const filteredProducts =
+    filterDataByCategory === "All"
+      ? data
+      : data.filter((product) => {
+          return product.category === filterDataByCategory;
+        });
+
+  return (
+    <div>
+      <div>
+        <label>Search By Category:</label>
+        <select
+          onChange={(e) => {
+            setFilterDataByCategory(e.target.value);
+          }}
+        >
+          <option value="All">All</option>
+          <option value="men's clothing">Men</option>
+          <option value="women's clothing">Women</option>
+          <option value="electronics">Electronics</option>
+          <option value="jewelery">Jewelery</option>
+        </select>
+      </div>
+      <div className="flexCard">
+        {filteredProducts.map((value, index) => {
+          return (
+            <Card key={index}>
+              <CardMedia component="img" image={value.image} />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {value.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Price: {value.price}
+                </Typography>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
